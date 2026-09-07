@@ -10,3 +10,4 @@ wheels/
 .venv
 /test.txt
 /test3.txt
+/data

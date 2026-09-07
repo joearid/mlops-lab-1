@@ -3,5 +3,3 @@
 ['remote "origin"']
     url = https://dagshub.com/joearid/mlops-lab-1.dvc
     auth = basic
-    user = joearid
-    password = 4fc42f85487ed4ffab51532ec3843472ec3d09f3

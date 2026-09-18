@@ -182,7 +182,7 @@ def main():
 
         print(f"[test] loss={test_loss:.4f} acc={test_acc:.4f}")
 
-        mlflow.pytorch.log_model(model, "model")
+        mlflow.pytorch.log_model(model, "model", serialization_format="pickle")
         print("Model logged to MLflow under artifact path 'model'")
 
 

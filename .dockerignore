@@ -1,0 +1,35 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtualenv (rebuilt inside the image)
+.venv/
+venv/
+
+# Data — NOT baked into the image; served from DVC/MLflow
+data/
+dvc-storage/
+
+# MLflow local state (server runs externally)
+mlruns/
+mlflow.db
+mlflow.db-journal
+
+# Git / IDE / OS cruft
+.git/
+.gitignore
+.dvc/
+.dvcignore
+.vscode/
+.idea/
+*.swp
+
+# Docs / labs
+labs/
+README.md
+*.md
+
+# Notebooks and scratch
+notebooks/
+*.ipynb

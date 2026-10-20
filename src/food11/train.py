@@ -4,6 +4,7 @@ Usage:
     uv run python src/food11/train.py --dataset mini --epochs 5 --lr 0.001 --batch-size 32
 """
 
+import os
 import argparse
 import time
 from pathlib import Path
@@ -130,7 +131,7 @@ def main():
     parser.add_argument("--batch-size", type=int, default=32)
     args = parser.parse_args()
 
-    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"))
     mlflow.set_experiment("food11")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

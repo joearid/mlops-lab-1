@@ -8,6 +8,7 @@ from PIL import Image
 
 from food11.data import CLASSES
 
+
 def check_splits(dataset_dir: Path) -> bool:
     print("1. Checking split folders...")
     ok = True

@@ -4,18 +4,18 @@ Usage:
     uv run python src/food11/train.py --dataset mini --epochs 5 --lr 0.001 --batch-size 32
 """
 
-import os
 import argparse
+import os
 import time
 from pathlib import Path
 
-import mlflow
 import mlflow.pytorch
 import torch
-import torch.nn as nn
-import torch.optim as optim
+from torch import nn, optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, models, transforms
+
+import mlflow
 
 # ---------------------------------------------------------------------------
 # Paths

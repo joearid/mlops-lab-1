@@ -48,16 +48,18 @@ IMAGENET_STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 # ---------------------------------------------------------------------------
 app = FastAPI(title="Food-11 API", version="1.0")
 
-_model = None
+model = None
 
 
 def _load_model():
     """Load the champion model once at startup."""
-    global _model
+    global model
+    if os.environ.get("SKIP_MODEL"):
+        return
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     print(f"Loading model from {MODEL_URI} (tracking uri: {MLFLOW_TRACKING_URI})")
-    _model = mlflow.pytorch.load_model(MODEL_URI, map_location="cpu")
-    _model.eval()
+    model = mlflow.pytorch.load_model(MODEL_URI, map_location="cpu")
+    model.eval()
     print("Model loaded successfully.")
 
 
@@ -86,7 +88,7 @@ def _preprocess(image_bytes: bytes) -> torch.Tensor:
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    if _model is None:
+    if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded yet.")
 
     try:
@@ -97,7 +99,7 @@ async def predict(file: UploadFile = File(...)):
 
     try:
         with torch.no_grad():
-            logits = _model(x)
+            logits = model(x)
         logits = logits.numpy().reshape(-1)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction failed: {e}")
@@ -114,7 +116,7 @@ async def predict(file: UploadFile = File(...)):
 
     idx = int(np.argmax(probs))
     return {
-        "predicted_class": CLASSES[idx],
+        "category": CLASSES[idx],
         "confidence": float(probs[idx]),
         "all_probabilities": {c: float(p) for c, p in zip(CLASSES, probs)},
     }
